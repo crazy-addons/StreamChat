@@ -10,6 +10,8 @@ import net.labymod.api.client.gui.screen.activity.Link;
 import net.labymod.api.client.gui.screen.activity.types.SimpleActivity;
 import net.labymod.api.client.gui.screen.widget.widgets.ComponentWidget;
 import net.labymod.api.client.gui.screen.widget.widgets.input.ButtonWidget;
+import net.labymod.api.client.gui.screen.widget.widgets.layout.ScrollWidget;
+import net.labymod.api.client.gui.screen.widget.widgets.layout.ScrollbarWidget;
 import net.labymod.api.client.gui.screen.widget.widgets.layout.entry.HorizontalListEntry;
 import net.labymod.api.client.gui.screen.widget.widgets.layout.list.HorizontalListWidget;
 import net.labymod.api.client.gui.screen.widget.widgets.layout.list.VerticalListWidget;
@@ -66,11 +68,13 @@ public class ControlActivity extends SimpleActivity {
     /* Messages */
     this.messageHistory = new VerticalListWidget<>();
     messageHistory.addId("messageHistory");
+    ScrollWidget scrollWidget = new ScrollWidget(this.messageHistory);
+    scrollWidget.addId("historyScroll");
 
     for (ComponentWidget widget : addon.getMessageHistory())
       messageHistory.addChild(widget);
 
-    document().addChild(messageHistory);
+    document().addChild(scrollWidget);
   }
 
   @Override
