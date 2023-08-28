@@ -2,6 +2,8 @@ package net.crazy.streamchat.core;
 
 import lombok.Getter;
 import net.crazy.streamchat.core.activity.ControlActivity;
+import net.crazy.streamchat.core.config.TwitchChatPreview;
+import net.crazy.streamchat.core.config.TwitchChatWrite;
 import net.labymod.api.Laby;
 import net.labymod.api.LabyAPI;
 import net.labymod.api.addon.AddonConfig;
@@ -11,6 +13,7 @@ import net.labymod.api.client.gui.screen.widget.widgets.activity.settings.AddonA
 import net.labymod.api.client.gui.screen.widget.widgets.input.ButtonWidget.ButtonSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.TextFieldSetting;
+import net.labymod.api.configuration.loader.Config;
 import net.labymod.api.configuration.loader.annotation.ConfigName;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.configuration.settings.annotation.SettingSection;
@@ -49,6 +52,10 @@ public class Configuration extends AddonConfig {
 
     bot.start();
   }
+
+  @SettingSection("ingame")
+  public TwitchChatPreview twitchChatPreview = new TwitchChatPreview();
+  public TwitchChatWrite twitchChatWrite = new TwitchChatWrite();
 
   @SettingSection("extras")
   @SwitchSetting

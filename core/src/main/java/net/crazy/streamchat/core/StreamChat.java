@@ -3,6 +3,7 @@ package net.crazy.streamchat.core;
 import lombok.Getter;
 import net.crazy.streamchat.core.activity.ControlNavigationElement;
 import net.crazy.streamchat.core.generated.DefaultReferenceStorage;
+import net.crazy.streamchat.core.listener.HotKeyListener;
 import net.crazy.streamchat.core.listener.TwitchChatListener;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.client.gui.screen.widget.widgets.ComponentWidget;
@@ -25,11 +26,11 @@ public class StreamChat extends LabyAddon<Configuration> {
     addon = this;
     this.registerSettingCategory();
 
-    DefaultReferenceStorage storage = this.referenceStorageAccessor();
-
     bot = new TwitchBot(this);
+    this.registerListener(bot);
 
     this.registerListener(new TwitchChatListener(this));
+    this.registerListener(new HotKeyListener(this));
 
     if (configuration().getControlPanel().get()) {
       this.labyAPI().navigationService().register(new ControlNavigationElement(this));

@@ -2,6 +2,8 @@ package net.crazy.streamchat.core;
 
 import net.crazy.streamchat.api.events.TwitchCommandReceived;
 import net.crazy.streamchat.api.events.TwitchMessageReceived;
+import net.crazy.streamchat.api.events.TwitchSendMessage;
+import net.labymod.api.event.Subscribe;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.PircBot;
 import java.io.IOException;
@@ -56,6 +58,17 @@ public class TwitchBot extends PircBot {
     }
 
     addon.labyAPI().eventBus().fire(new TwitchMessageReceived(channel, sender, message));
+  }
+
+  @Subscribe
+  public void sendMessage(TwitchSendMessage event) {
+    this.sendMessage("#" + (event.getChannel() == null ?
+            config.getTwitchChannel().get().toLowerCase() : event.getChannel()),
+        event.getMessage());
+
+    addon.labyAPI().eventBus().fire(
+        new TwitchMessageReceived("", addon.configuration().getTwitchChannel().get(),
+            event.getMessage()));
   }
 
   public void stop() {

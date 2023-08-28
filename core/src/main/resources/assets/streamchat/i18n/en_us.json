@@ -6,6 +6,9 @@
         "twitch": {
           "name": "Twitch"
         },
+        "ingame": {
+          "name": "InGame"
+        },
         "extras": {
           "name": "Extras"
         }
@@ -26,6 +29,18 @@
       "twitchToken": {
         "name": "Twitch Token"
       },
+      "twitchChatPreview": {
+        "name": "Show Twitch Chat",
+        "hotkey": {
+          "name": "Quick toggle"
+        }
+      },
+      "twitchChatWrite": {
+        "name": "Write in Twitch Chat",
+        "hotkey": {
+          "name": "Quick toggle"
+        }
+      },
       "controlPanel": {
         "name": "StreamChat+ Control Tab",
         "description": "Adds a Control Tab at the top.\n§cThis feature requires a restart."
@@ -33,6 +48,18 @@
       "startBot": {
         "name": "Bot",
         "text": "Start"
+      }
+    },
+    "messages": {
+      "states": {
+        "preview": {
+          "enabled": "§aChat Preview has been enabled.",
+          "disabled": "§cChat Preview has been disabled."
+        },
+        "write": {
+          "enabled": "§aSwitched to the Twitch Chat.",
+          "disabled": "§cSwitched back to the Minecraft Chat."
+        }
       }
     }
   }
