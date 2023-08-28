@@ -1,11 +1,11 @@
 .controls {
-   top: 4%;
+   top: 5%;
    left: 2%;
-   height: 25;
+   height: 5%;
    width: fit-content;
 
    .button {
-      width: 50;
+      width: 60;
    }
 }
 
@@ -30,5 +30,26 @@
     width: 5;
     height: 100%;
     margin-left: 5;
+  }
+}
+
+.inputList {
+  top: 90.5%;
+  left: 2%;
+  width: 85%;
+  height: 20;
+
+  .chatInput {
+    height: 100%;
+    width: 95%;
+    top: 0;
+    left: 0;
+  }
+
+  .sendButton {
+    height: 100%;
+    width: 5%;
+    top: 0;
+    left: 95%;
   }
 }
