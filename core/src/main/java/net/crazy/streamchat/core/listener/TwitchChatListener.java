@@ -1,7 +1,8 @@
 package net.crazy.streamchat.core.listener;
 
 import net.crazy.streamchat.core.StreamChat;
-import net.crazy.streamchat.core.events.TwitchMessageReceived;
+import net.crazy.streamchat.api.events.TwitchMessageReceived;
+import net.labymod.api.client.gui.screen.widget.widgets.ComponentWidget;
 import net.labymod.api.event.Subscribe;
 
 public class TwitchChatListener {
@@ -18,5 +19,6 @@ public class TwitchChatListener {
     String message = prefix.replace("%user%", event.getSender())
         .replace("%message%", event.getMessage());
     addon.displayMessage(message);
+    addon.getMessageHistory().add(ComponentWidget.text(message));
   }
 }

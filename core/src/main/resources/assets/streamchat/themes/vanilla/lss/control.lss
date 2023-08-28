@@ -1,0 +1,19 @@
+.controls {
+   top: 30;
+   left: 20;
+   height: 25;
+   width: fit-content;
+
+   .button {
+      width: 50;
+   }
+}
+
+.messageHistory {
+  top: 60;
+  left: 20;
+  height: 80%;
+  width: 85%;
+  background-color: rgba(20, 20, 20, 150);
+  border-radius: 5;
+}

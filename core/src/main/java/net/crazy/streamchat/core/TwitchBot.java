@@ -1,7 +1,7 @@
 package net.crazy.streamchat.core;
 
-import net.crazy.streamchat.core.events.TwitchCommandReceived;
-import net.crazy.streamchat.core.events.TwitchMessageReceived;
+import net.crazy.streamchat.api.events.TwitchCommandReceived;
+import net.crazy.streamchat.api.events.TwitchMessageReceived;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.PircBot;
 import java.io.IOException;
@@ -60,6 +60,7 @@ public class TwitchBot extends PircBot {
 
   public void stop() {
     this.disconnect();
+    addon.getMessageHistory().clear();
   }
 
   public void restart() {
