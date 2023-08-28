@@ -61,6 +61,14 @@
           "disabled": "§cSwitched back to the Minecraft Chat."
         }
       }
+    },
+    "activities": {
+      "control": {
+        "start": "Start",
+        "stop": "Stop",
+        "restart": "Restart",
+        "placeholder": "Message Twitch Chat..."
+      }
     }
   }
 }
