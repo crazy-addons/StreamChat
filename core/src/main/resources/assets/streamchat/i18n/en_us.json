@@ -2,8 +2,25 @@
   "streamchat": {
     "settings": {
       "name": "StreamChat+",
+      "header": {
+        "twitch": {
+          "name": "Twitch"
+        }
+      },
       "enabled": {
         "name": "Enabled"
+      },
+      "prefix": {
+        "name": "Prefix"
+      },
+      "botName": {
+        "name": "Bot Username"
+      },
+      "twitchChannel": {
+        "name": "Twitch Username"
+      },
+      "twitchToken": {
+        "name": "Twitch Token"
       }
     }
   }
