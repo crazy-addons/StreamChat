@@ -1,7 +1,7 @@
 {
-  "example": {
+  "streamchat": {
     "settings": {
-      "name": "ExampleAddon",
+      "name": "StreamChat+",
       "enabled": {
         "name": "Enabled"
       }

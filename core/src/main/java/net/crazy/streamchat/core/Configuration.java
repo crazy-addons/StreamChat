@@ -1,4 +1,4 @@
-package org.example.core;
+package net.crazy.streamchat.core;
 
 import net.labymod.api.addon.AddonConfig;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;

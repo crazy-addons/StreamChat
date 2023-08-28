@@ -1,4 +1,4 @@
-package org.example.core;
+package net.crazy.streamchat.core;
 
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.models.addon.annotation.AddonMain;
