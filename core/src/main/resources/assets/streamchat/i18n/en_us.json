@@ -5,13 +5,17 @@
       "header": {
         "twitch": {
           "name": "Twitch"
+        },
+        "extras": {
+          "name": "Extras"
         }
       },
       "enabled": {
         "name": "Enabled"
       },
       "prefix": {
-        "name": "Prefix"
+        "name": "Prefix",
+        "description": "Set the appearance of an incoming chat message.\nUse §6%message%§f as the placeholder for messages.\nUse §6%user%§f as the placeholder for the username."
       },
       "botName": {
         "name": "Bot Username"
@@ -21,6 +25,14 @@
       },
       "twitchToken": {
         "name": "Twitch Token"
+      },
+      "controlPanel": {
+        "name": "StreamChat+ Control Tab",
+        "description": "Adds a Control Tab at the top.\n§cThis feature requires a restart."
+      },
+      "startBot": {
+        "name": "Bot",
+        "text": "Start"
       }
     }
   }
