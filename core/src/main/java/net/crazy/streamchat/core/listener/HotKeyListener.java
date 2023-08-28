@@ -24,7 +24,6 @@ public class HotKeyListener {
     if (addon.configuration().twitchChatPreview.getHotkey().get().equals(event.key())) {
       boolean newState = !addon.configuration().twitchChatPreview.getEnabled().get();
       addon.configuration().twitchChatPreview.getEnabled().set(newState);
-      addon.saveConfiguration();
       addon.displayMessage(Component.translatable(
           String.format("streamchat.messages.states.preview.%s", newState ? "enabled" : "disabled")));
       return;
@@ -33,7 +32,6 @@ public class HotKeyListener {
     if (addon.configuration().twitchChatWrite.getHotkey().get().equals(event.key())) {
       boolean newState = !addon.configuration().twitchChatWrite.getEnabled().get();
       addon.configuration().twitchChatWrite.getEnabled().set(newState);
-      addon.saveConfiguration();
       addon.displayMessage(Component.translatable(
           String.format("streamchat.messages.states.write.%s", newState ? "enabled" : "disabled")));
     }
