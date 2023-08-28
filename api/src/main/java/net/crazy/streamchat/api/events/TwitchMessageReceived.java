@@ -1,4 +1,4 @@
-package net.crazy.streamchat.core.events;
+package net.crazy.streamchat.api.events;
 
 import lombok.Getter;
 import net.labymod.api.event.Event;
