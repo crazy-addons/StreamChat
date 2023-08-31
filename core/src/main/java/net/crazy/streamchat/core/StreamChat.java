@@ -1,14 +1,13 @@
 package net.crazy.streamchat.core;
 
+import java.util.ArrayList;
 import lombok.Getter;
-import net.crazy.streamchat.core.activity.ControlNavigationElement;
-import net.crazy.streamchat.core.generated.DefaultReferenceStorage;
+import net.crazy.streamchat.core.activity.control.ControlNavigationElement;
 import net.crazy.streamchat.core.listener.HotKeyListener;
 import net.crazy.streamchat.core.listener.TwitchChatListener;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.client.gui.screen.widget.widgets.ComponentWidget;
 import net.labymod.api.models.addon.annotation.AddonMain;
-import java.util.ArrayList;
 
 @AddonMain
 public class StreamChat extends LabyAddon<Configuration> {

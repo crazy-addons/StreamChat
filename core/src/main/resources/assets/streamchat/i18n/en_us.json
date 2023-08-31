@@ -29,6 +29,9 @@
       "twitchToken": {
         "name": "Twitch Token"
       },
+      "openCommands": {
+        "name": "Custom Commands"
+      },
       "twitchChatPreview": {
         "name": "Show Twitch Chat",
         "hotkey": {
@@ -68,6 +71,65 @@
         "stop": "Stop",
         "restart": "Restart",
         "placeholder": "Message Twitch Chat..."
+      },
+      "commands": {
+        "buttons": {
+          "add": "Create Command",
+          "back": "Back",
+          "save": "Save"
+        },
+        "name": {
+          "label": "Name",
+          "placeholder": "Unique name...",
+          "invalid_empty": "The name may not be empty!",
+          "invalid_exists": "The name already exists!",
+          "invalid_characters": "The name may only contain letters (a-z and A-Z)!"
+        },
+        "trigger": {
+          "label": "Trigger(s)",
+          "placeholder": "Trigger1(, Trigger2, ...)",
+          "invalid_empty": "Minimum of one trigger required!",
+          "invalid_exists": "One of the triggers already exists!",
+          "invalid_characters": "The trigger may only contain letters (a-z and A-Z)!"
+        },
+        "response": {
+          "label": "Response",
+          "placeholder": "Awesome response with %variables%...",
+          "invalid_empty": "Response may not be empty!",
+          "invalid_characters": "Response may not only contain whitespaces!"
+        },
+        "help": {
+          "name": {
+            "title": "Name",
+            "description": "A unique name of the command so that you can identify it."
+          },
+          "triggers": {
+            "title": "Trigger",
+            "description": "One or multiple key words that cause the bot to send the response. Triggers can only be letters and may not contain special characters, so you don't have to add a prefix. If you want to have multiple triggers for one command separate them by a comma."
+          },
+          "response": {
+            "title": "Response",
+            "description": "What the Bot should reply back when the command is executed. You may use §6%variables%§r in your response. A list of variables can be found below."
+          },
+          "variable": {
+            "title": "Variables",
+            "description": "Variables are placeholders that will be replaced with a value when the command is executed."
+          },
+          "variables": {
+            "health": {
+              "title": "health",
+              "description": "Current health of the player."
+            },
+            "username": {
+              "title": "username",
+              "description": "The name of the player."
+            },
+            "version": {
+              "title": "version",
+              "description": "The Minecraft Version"
+            }
+          }
+        }
       }
     }
   }

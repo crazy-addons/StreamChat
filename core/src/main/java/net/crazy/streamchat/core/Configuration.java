@@ -1,13 +1,20 @@
 package net.crazy.streamchat.core;
 
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
+import net.crazy.streamchat.core.activity.commands.CommandActivity;
+import net.crazy.streamchat.core.commands.CustomCommand;
 import net.crazy.streamchat.core.config.TwitchChatPreview;
 import net.crazy.streamchat.core.config.TwitchChatWrite;
 import net.labymod.api.addon.AddonConfig;
+import net.labymod.api.client.gui.screen.activity.Activity;
+import net.labymod.api.client.gui.screen.widget.widgets.activity.settings.ActivitySettingWidget.ActivitySetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.ButtonWidget.ButtonSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.TextFieldSetting;
 import net.labymod.api.configuration.loader.annotation.ConfigName;
+import net.labymod.api.configuration.loader.annotation.Exclude;
 import net.labymod.api.configuration.loader.property.ConfigProperty;
 import net.labymod.api.configuration.settings.annotation.SettingSection;
 import net.labymod.api.util.MethodOrder;
@@ -36,8 +43,17 @@ public class Configuration extends AddonConfig {
   @Getter
   private final ConfigProperty<String> twitchToken = new ConfigProperty<>("");
 
-  @ButtonSetting
+  @ActivitySetting
   @MethodOrder(after = "twitchToken")
+  public Activity openCommands() {
+    return new CommandActivity();
+  }
+
+  @Exclude
+  public Map<String, CustomCommand> customCommands = new HashMap<>();
+
+  @ButtonSetting
+  @MethodOrder(after = "openCommands")
   public void startBot() {
     TwitchBot bot = StreamChat.addon.getBot();
     if (bot.isConnected())
@@ -58,5 +74,13 @@ public class Configuration extends AddonConfig {
   @Override
   public ConfigProperty<Boolean> enabled() {
     return this.enabled;
+  }
+
+  public boolean triggerExists(String trigger) {
+    for (CustomCommand customCommand : customCommands.values()) {
+      if (customCommand.getTriggers().contains(trigger.toLowerCase()))
+        return true;
+    }
+    return false;
   }
 }

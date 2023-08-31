@@ -1,4 +1,4 @@
-package net.crazy.streamchat.core.activity;
+package net.crazy.streamchat.core.activity.control;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

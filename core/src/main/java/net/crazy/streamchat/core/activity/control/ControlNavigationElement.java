@@ -1,4 +1,4 @@
-package net.crazy.streamchat.core.activity;
+package net.crazy.streamchat.core.activity.control;
 
 import net.crazy.streamchat.core.StreamChat;
 import net.labymod.api.client.component.Component;
