@@ -29,9 +29,6 @@
       "twitchToken": {
         "name": "Twitch Token"
       },
-      "openCommands": {
-        "name": "Custom Commands"
-      },
       "twitchChatPreview": {
         "name": "Show Twitch Chat",
         "hotkey": {
@@ -42,6 +39,15 @@
         "name": "Write in Twitch Chat",
         "hotkey": {
           "name": "Quick toggle"
+        }
+      },
+      "twitchCommandConfig": {
+        "name": "Custom Commands",
+        "commandPrefix": {
+          "name": "Prefix"
+        },
+        "openCommands": {
+          "name": "Open Overview"
         }
       },
       "controlPanel": {
@@ -63,6 +69,9 @@
           "enabled": "§aSwitched to the Twitch Chat.",
           "disabled": "§cSwitched back to the Minecraft Chat."
         }
+      },
+      "commands": {
+        "unknown": "Unknown"
       }
     },
     "activities": {
@@ -126,7 +135,19 @@
             },
             "version": {
               "title": "version",
-              "description": "The Minecraft Version"
+              "description": "The Minecraft Version."
+            },
+            "server": {
+              "title": "server",
+              "description": "The server you are currently connected to."
+            },
+            "biome": {
+              "title": "biome",
+              "description": "The biome you are currently in."
+            },
+            "food": {
+              "title": "food",
+              "description": "Current food-level of the player."
             }
           }
         }

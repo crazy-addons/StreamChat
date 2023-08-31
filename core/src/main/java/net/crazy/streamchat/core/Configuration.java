@@ -3,13 +3,11 @@ package net.crazy.streamchat.core;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
-import net.crazy.streamchat.core.activity.commands.CommandActivity;
 import net.crazy.streamchat.core.commands.CustomCommand;
 import net.crazy.streamchat.core.config.TwitchChatPreview;
 import net.crazy.streamchat.core.config.TwitchChatWrite;
+import net.crazy.streamchat.core.config.TwitchCommandConfig;
 import net.labymod.api.addon.AddonConfig;
-import net.labymod.api.client.gui.screen.activity.Activity;
-import net.labymod.api.client.gui.screen.widget.widgets.activity.settings.ActivitySettingWidget.ActivitySetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.ButtonWidget.ButtonSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.SwitchWidget.SwitchSetting;
 import net.labymod.api.client.gui.screen.widget.widgets.input.TextFieldWidget.TextFieldSetting;
@@ -43,17 +41,14 @@ public class Configuration extends AddonConfig {
   @Getter
   private final ConfigProperty<String> twitchToken = new ConfigProperty<>("");
 
-  @ActivitySetting
   @MethodOrder(after = "twitchToken")
-  public Activity openCommands() {
-    return new CommandActivity();
-  }
+  public TwitchCommandConfig twitchCommandConfig = new TwitchCommandConfig();
 
   @Exclude
   public Map<String, CustomCommand> customCommands = new HashMap<>();
 
   @ButtonSetting
-  @MethodOrder(after = "openCommands")
+  @MethodOrder(after = "twitchCommandConfig")
   public void startBot() {
     TwitchBot bot = StreamChat.addon.getBot();
     if (bot.isConnected())
@@ -78,7 +73,7 @@ public class Configuration extends AddonConfig {
 
   public boolean triggerExists(String trigger) {
     for (CustomCommand customCommand : customCommands.values()) {
-      if (customCommand.getTriggers().contains(trigger.toLowerCase()))
+      if (customCommand.hasTrigger(trigger))
         return true;
     }
     return false;

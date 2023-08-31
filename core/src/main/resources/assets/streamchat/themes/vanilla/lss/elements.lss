@@ -75,6 +75,7 @@ CustomCommand {
 Help {
   height: fit-content;
   width: 80%;
+  padding-bottom: 3;
 
   .title {
     top: 0;
@@ -85,6 +86,7 @@ Help {
   .description {
     top: 10;
     left: 0;
+    width: 100%;
     text-color: #dbdbdb;
   }
 }

@@ -32,6 +32,10 @@ public class CustomCommand {
     this.enabled = !enabled;
   }
 
+  public boolean hasTrigger(String trigger) {
+    return this.triggers.contains(trigger.toLowerCase());
+  }
+
   public static class CustomCommandBuilder {
 
     private String name, response;

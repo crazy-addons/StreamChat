@@ -1,15 +1,15 @@
 package net.crazy.streamchat.core;
 
+import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import net.crazy.streamchat.api.events.TwitchCommandReceived;
 import net.crazy.streamchat.api.events.TwitchMessageReceived;
 import net.crazy.streamchat.api.events.TwitchSendMessage;
 import net.labymod.api.event.Subscribe;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.PircBot;
-import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class TwitchBot extends PircBot {
 
@@ -23,12 +23,14 @@ public class TwitchBot extends PircBot {
   }
 
   public void start() {
-    if (!config.enabled().get())
+    if (!config.enabled().get()) {
       return;
+    }
 
     // Check if all necessary information has been provided in the configuration
-    if (!isConfiguredCorrectly())
+    if (!isConfiguredCorrectly()) {
       return;
+    }
 
     boolean validToken = false;
 
@@ -40,9 +42,10 @@ public class TwitchBot extends PircBot {
     } catch (IOException | IrcException e) {
       e.printStackTrace();
     }
-    
-    if (!validToken)
+
+    if (!validToken) {
       return;
+    }
 
     this.joinChannel("#" + config.getTwitchChannel().get().toLowerCase());
   }
@@ -50,10 +53,13 @@ public class TwitchBot extends PircBot {
   @Override
   protected void onMessage(String channel, String sender, String login, String hostname,
       String message) {
-    if (!config.enabled().get())
+    if (!config.enabled().get()) {
       return;
+    }
 
-    if (message.startsWith("!")) {
+
+    if (message.startsWith(
+        addon.configuration().twitchCommandConfig.getCommandPrefix().getOrDefault("!"))) {
       addon.labyAPI().eventBus().fire(new TwitchCommandReceived(channel, sender, message));
     }
 
@@ -84,8 +90,9 @@ public class TwitchBot extends PircBot {
 
   private boolean isConfiguredCorrectly() {
     if (config.getTwitchChannel() == null || config.getTwitchToken() == null
-        || config.getBotName() == null)
+        || config.getBotName() == null) {
       return false;
+    }
 
     return config.getTwitchToken().get().startsWith("oauth:");
   }

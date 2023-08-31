@@ -3,6 +3,7 @@ package net.crazy.streamchat.core;
 import java.util.ArrayList;
 import lombok.Getter;
 import net.crazy.streamchat.core.activity.control.ControlNavigationElement;
+import net.crazy.streamchat.core.commands.CustomCommandManager;
 import net.crazy.streamchat.core.listener.HotKeyListener;
 import net.crazy.streamchat.core.listener.TwitchChatListener;
 import net.labymod.api.addon.LabyAddon;
@@ -19,6 +20,7 @@ public class StreamChat extends LabyAddon<Configuration> {
 
   @Getter
   private final ArrayList<ComponentWidget> messageHistory = new ArrayList<>();
+  private CustomCommandManager customCommandManager;
 
   @Override
   protected void enable() {
@@ -34,6 +36,9 @@ public class StreamChat extends LabyAddon<Configuration> {
     if (configuration().getControlPanel().get()) {
       this.labyAPI().navigationService().register(new ControlNavigationElement(this));
     }
+
+    this.customCommandManager = new CustomCommandManager(this);
+    this.registerListener(customCommandManager);
 
     this.logger().info(String.format("StreamChat+ | Addon successfully enabled. (v%s)",
         this.addonInfo().getVersion()));

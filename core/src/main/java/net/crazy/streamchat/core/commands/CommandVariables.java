@@ -8,7 +8,9 @@ public enum CommandVariables {
   /* Minecraft */
   HEALTH("health"),
   USERNAME("username"),
-  VERSION("version");
+  VERSION("version"),
+  SERVER("server"),
+  BIOME("biome");
 
   @Getter
   private final String identifier;
@@ -38,5 +40,13 @@ public enum CommandVariables {
     }
 
     return "{" + getIdentifier() + "}";
+  }
+
+  public static CommandVariables findById(String identifier) {
+    for (CommandVariables variable : values()) {
+      if (variable.identifier.equalsIgnoreCase(identifier))
+        return variable;
+    }
+    return null;
   }
 }
