@@ -10,9 +10,9 @@ import net.crazy.streamchat.core.commands.CustomCommand.CustomCommandBuilder;
 import net.crazy.streamchat.core.events.EditCustomCommandEvent;
 import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.screen.Parent;
+import net.labymod.api.client.gui.screen.activity.Activity;
 import net.labymod.api.client.gui.screen.activity.AutoActivity;
 import net.labymod.api.client.gui.screen.activity.Link;
-import net.labymod.api.client.gui.screen.activity.types.SimpleActivity;
 import net.labymod.api.client.gui.screen.widget.Widget;
 import net.labymod.api.client.gui.screen.widget.action.ListSession;
 import net.labymod.api.client.gui.screen.widget.widgets.ComponentWidget;
@@ -27,7 +27,7 @@ import net.labymod.api.util.I18n;
 
 @AutoActivity
 @Link("commands.lss")
-public class CommandActivity extends SimpleActivity {
+public class CommandActivity extends Activity {
   private final StreamChat addon = StreamChat.addon;
   private final ResourceLocation textures = ResourceLocation.create("streamchat",
       "themes/vanilla/textures/commands.png");
@@ -57,7 +57,7 @@ public class CommandActivity extends SimpleActivity {
       responseInput.setText("");
       this.switchPage();
     }).addId("addButton");
-    addButton.updateIcon(Icon.sprite16(textures, 3, 0));
+    //addButton.updateIcon(NamedResources.plus);
     buttonContainer.addChild(addButton);
     mainPage.addChild(buttonContainer);
 
@@ -83,10 +83,11 @@ public class CommandActivity extends SimpleActivity {
 
     ButtonWidget backButton = ButtonWidget.i18n(i18nKey + "buttons.back", this::switchPage)
         .addId("backButton");
-    backButton.updateIcon(Icon.sprite16(textures, 5, 0));
+    //backButton.updateIcon(Icon.sprite16(textures, 5, 0));
     buttons.addChild(backButton);
 
-    helpButton = ButtonWidget.icon(Icon.sprite16(textures, 6, 0))
+    helpButton = ButtonWidget.text("?")
+    //ButtonWidget.icon(Icon.sprite16(textures, 6, 0))
         .addId("helpButton");
     helpButton.setPressable(this::switchHelp);
     buttons.addChild(helpButton);
@@ -118,7 +119,7 @@ public class CommandActivity extends SimpleActivity {
 
     ButtonWidget helpBackButton = ButtonWidget.i18n(i18nKey + "buttons.back", this::switchHelp)
         .addId("backButton");
-    helpBackButton.updateIcon(Icon.sprite16(textures, 5, 0));
+    //helpBackButton.updateIcon(Icon.sprite16(textures, 5, 0));
     helpPage.addChild(helpBackButton);
 
     VerticalListWidget<Widget> helpList = new VerticalListWidget<>().addId("helpList");

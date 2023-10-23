@@ -1,0 +1,128 @@
+Button {
+  height: 8;
+  width: fit-content;
+  padding: 5;
+}
+
+.buttonContainer {
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5%;
+
+  .addButton {
+    alignment-x: center;
+    alignment-y: center;
+  }
+}
+
+.mainPage {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  .commandsScroll {
+    left: 0;
+    top: 5%;
+    width: 100%;
+    height: 95%;
+
+    Scrollbar {
+      left: 0;
+      top: 0;
+      width: 5;
+      height: 100%;
+      margin-left: 5;
+    }
+
+    .commandsGrid {
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: fit-content;
+      space-between-entries: 1.5;
+    }
+  }
+}
+
+.secondPage {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  .buttons {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: fit-content;
+
+    .backButton {
+      top: 0;
+      left: 0;
+    }
+
+    .helpButton {
+      top: 0;
+      right: 0;
+    }
+  }
+
+  .inputContainer {
+    left: 0;
+    top: 20;
+    height: 90%;
+    width: 100%;
+
+    .nameInput {
+      left: 0;
+      top: 10;
+    }
+
+    .triggerInput {
+      left: 0;
+      top: 60;
+    }
+
+    .responseInput {
+      left: 0;
+      top: 105;
+    }
+
+    .saveButton {
+      alignment-x: center;
+      top: 145;
+    }
+  }
+}
+
+.helpPage {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+
+  .backButton {
+    top: 0;
+    left: 0;
+  }
+
+  Scroll {
+    top: 25;
+    alignment-x: center;
+    height: 95%;
+    width: 80%;
+
+    .helpList {
+      height: fit-content;
+      width: 100%;
+      space-between-entries: 1;
+
+      HorizontalList {
+        height: fit-content;
+        width: 100%;
+      }
+    }
+  }
+}

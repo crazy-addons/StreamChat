@@ -42,6 +42,8 @@ InputGroup {
 }
 
 CustomCommand {
+  border-radius: 5;
+
   .name {
     alignment-x: center;
     alignment-y: center;
@@ -50,22 +52,22 @@ CustomCommand {
   .editButton {
     alignment-y: bottom;
     margin-bottom: 1;
-    left: 0;
+    left: 2;
   }
 
   .toggleButton {
     alignment-y: bottom;
     margin-bottom: 1;
-    right: 0;
+    right: 2;
   }
 }
 
 .enabled {
- border: 1 #d3d3d3;
+ background-color: #1056a5;
 }
 
 .disabled {
-  border: 1 #8d8d8d;
+  background-color: #3e4046;
 }
 
 Help {

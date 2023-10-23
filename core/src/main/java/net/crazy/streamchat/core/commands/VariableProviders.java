@@ -24,6 +24,7 @@ public class VariableProviders {
     return String.valueOf(minecraft.getClientPlayer().getHealth());
   }
 
+  @VariableProvider(identifier = "food")
   public String getFood() {
     if (minecraft.getClientPlayer() == null)
       return unknown;
@@ -64,5 +65,12 @@ public class VariableProviders {
       return "Unknown";
 
     return world.getReadableBiomeName();
+  }
+
+  @VariableProvider(identifier = "gamemode")
+  public String getGameMode() {
+    if (minecraft.getClientPlayer() == null)
+      return unknown;
+    return minecraft.getClientPlayer().gameMode().getName();
   }
 }

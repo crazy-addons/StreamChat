@@ -10,7 +10,9 @@ public enum CommandVariables {
   USERNAME("username"),
   VERSION("version"),
   SERVER("server"),
-  BIOME("biome");
+  BIOME("biome"),
+  FOOD("food"),
+  GAMEMODE("gamemode");
 
   @Getter
   private final String identifier;

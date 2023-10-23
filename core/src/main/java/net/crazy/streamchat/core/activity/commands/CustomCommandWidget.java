@@ -3,7 +3,7 @@ package net.crazy.streamchat.core.activity.commands;
 import net.crazy.streamchat.core.StreamChat;
 import net.crazy.streamchat.core.commands.CustomCommand;
 import net.crazy.streamchat.core.events.EditCustomCommandEvent;
-import net.labymod.api.client.gui.icon.Icon;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.client.gui.lss.property.annotation.AutoWidget;
 import net.labymod.api.client.gui.mouse.MutableMouse;
 import net.labymod.api.client.gui.screen.Parent;
@@ -42,13 +42,14 @@ public class CustomCommandWidget extends SimpleWidget {
     name.addId("name");
     addChild(name);
 
-    ButtonWidget editButton = ButtonWidget.icon(Icon.sprite16(textures, 0, 0), () ->
+    ButtonWidget editButton = ButtonWidget.component(Component
+        .translatable("streamchat.activities.commands.buttons.edit"), () ->
         StreamChat.addon.labyAPI().eventBus().fire(new EditCustomCommandEvent(this.customCommand)));
     editButton.addId("editButton");
     addChild(editButton);
 
-    toggleButton = ButtonWidget.icon(Icon.sprite16(textures, enabled ? 1 : 2, 0));
-    toggleButton.setPressable(customCommand::toggle);
+    toggleButton = ButtonWidget.component(Component.translatable(getKey()));
+    toggleButton.setPressable(this.customCommand::toggle);
     toggleButton.addId("toggleButton");
     addChild(toggleButton);
   }
@@ -60,7 +61,15 @@ public class CustomCommandWidget extends SimpleWidget {
     if (enabled == lastKnown)
       return;
 
-    toggleButton.updateIcon(Icon.sprite16(textures, enabled ? 1 : 2, 0));
+    //toggleButton.updateIcon(Icon.sprite16(textures, enabled ? 1 : 2, 0));
+    toggleButton.updateComponent(Component.translatable(getKey()));
+    removeId(lastKnown ? "enabled" : "disabled");
+    addId(enabled ? "enabled" : "disabled");
     lastKnown = enabled;
+  }
+
+  private String getKey() {
+    return "streamchat.activities.commands.buttons."
+        + (customCommand.isEnabled() ? "enabled" : "disabled");
   }
 }

@@ -47,7 +47,7 @@
           "name": "Prefix"
         },
         "openCommands": {
-          "name": "Open Overview"
+          "name": "Custom Commands"
         }
       },
       "controlPanel": {
@@ -85,7 +85,10 @@
         "buttons": {
           "add": "Create Command",
           "back": "Back",
-          "save": "Save"
+          "save": "Save",
+          "enabled": "Enabled",
+          "disabled": "Disabled",
+          "edit": "Edit"
         },
         "name": {
           "label": "Name",
@@ -148,6 +151,10 @@
             "food": {
               "title": "food",
               "description": "Current food-level of the player."
+            },
+            "gamemode": {
+              "title": "gamemode",
+              "description": "Current gamemode (Survival, Creative, ...) of the player."
             }
           }
         }
