@@ -2,8 +2,162 @@
   "streamchat": {
     "settings": {
       "name": "StreamChat+",
+      "header": {
+        "twitch": {
+          "name": "Twitch"
+        },
+        "ingame": {
+          "name": "InGame"
+        },
+        "extras": {
+          "name": "Extras"
+        }
+      },
       "enabled": {
         "name": "Enabled"
+      },
+      "prefix": {
+        "name": "Prefix",
+        "description": "Set the appearance of an incoming chat message.\nUse §6%message%§f as the placeholder for messages.\nUse §6%user%§f as the placeholder for the username."
+      },
+      "botName": {
+        "name": "Bot Username"
+      },
+      "twitchChannel": {
+        "name": "Twitch Username"
+      },
+      "twitchToken": {
+        "name": "Twitch Token"
+      },
+      "twitchChatPreview": {
+        "name": "Show Twitch Chat",
+        "hotkey": {
+          "name": "Quick toggle"
+        }
+      },
+      "twitchChatWrite": {
+        "name": "Write in Twitch Chat",
+        "hotkey": {
+          "name": "Quick toggle"
+        }
+      },
+      "twitchCommandConfig": {
+        "name": "Custom Commands",
+        "commandPrefix": {
+          "name": "Prefix"
+        },
+        "openCommands": {
+          "name": "Custom Commands"
+        }
+      },
+      "controlPanel": {
+        "name": "StreamChat+ Control Tab",
+        "description": "Adds a Control Tab at the top.\n§cThis feature requires a restart."
+      },
+      "startBot": {
+        "name": "Bot",
+        "text": "Start"
+      }
+    },
+    "messages": {
+      "states": {
+        "preview": {
+          "enabled": "§aChat Preview has been enabled.",
+          "disabled": "§cChat Preview has been disabled."
+        },
+        "write": {
+          "enabled": "§aSwitched to the Twitch Chat.",
+          "disabled": "§cSwitched back to the Minecraft Chat."
+        }
+      },
+      "commands": {
+        "unknown": "Unknown"
+      }
+    },
+    "activities": {
+      "control": {
+        "start": "Start",
+        "stop": "Stop",
+        "restart": "Restart",
+        "placeholder": "Message Twitch Chat..."
+      },
+      "commands": {
+        "buttons": {
+          "add": "Create Command",
+          "back": "Back",
+          "save": "Save",
+          "enabled": "Enabled",
+          "disabled": "Disabled",
+          "edit": "Edit"
+        },
+        "name": {
+          "label": "Name",
+          "placeholder": "Unique name...",
+          "invalid_empty": "The name may not be empty!",
+          "invalid_exists": "The name already exists!",
+          "invalid_characters": "The name may only contain letters (a-z and A-Z)!"
+        },
+        "trigger": {
+          "label": "Trigger(s)",
+          "placeholder": "Trigger1(, Trigger2, ...)",
+          "invalid_empty": "Minimum of one trigger required!",
+          "invalid_exists": "One of the triggers already exists!",
+          "invalid_characters": "The trigger may only contain letters (a-z and A-Z)!"
+        },
+        "response": {
+          "label": "Response",
+          "placeholder": "Awesome response with %variables%...",
+          "invalid_empty": "Response may not be empty!",
+          "invalid_characters": "Response may not only contain whitespaces!"
+        },
+        "help": {
+          "name": {
+            "title": "Name",
+            "description": "A unique name of the command so that you can identify it."
+          },
+          "triggers": {
+            "title": "Trigger",
+            "description": "One or multiple key words that cause the bot to send the response. Triggers can only be letters and may not contain special characters, so you don't have to add a prefix. If you want to have multiple triggers for one command separate them by a comma."
+          },
+          "response": {
+            "title": "Response",
+            "description": "What the Bot should reply back when the command is executed. You may use §6%variables%§r in your response. A list of variables can be found below."
+          },
+          "variable": {
+            "title": "Variables",
+            "description": "Variables are placeholders that will be replaced with a value when the command is executed."
+          },
+          "variables": {
+            "health": {
+              "title": "health",
+              "description": "Current health of the player."
+            },
+            "username": {
+              "title": "username",
+              "description": "The name of the player."
+            },
+            "version": {
+              "title": "version",
+              "description": "The Minecraft Version."
+            },
+            "server": {
+              "title": "server",
+              "description": "The server you are currently connected to."
+            },
+            "biome": {
+              "title": "biome",
+              "description": "The biome you are currently in."
+            },
+            "food": {
+              "title": "food",
+              "description": "Current food-level of the player."
+            },
+            "gamemode": {
+              "title": "gamemode",
+              "description": "Current gamemode (Survival, Creative, ...) of the player."
+            }
+          }
+        }
       }
     }
   }

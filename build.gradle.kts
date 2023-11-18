@@ -18,6 +18,7 @@ labyMod {
         description = "Never tab out of your full screen again! StreamChat+ shows you your Twitch chat in Minecraft. "
         minecraftVersion = "*"
         version = System.getenv().getOrDefault("VERSION", "0.0.1")
+        iconUrl = "https://cs-jako.github.io/images/addons/StreamChatPlus.png"
     }
 
     minecraft {
@@ -30,7 +31,8 @@ labyMod {
                 "1.19.2",
                 "1.19.3",
                 "1.19.4",
-                "1.20.1"
+                "1.20.1",
+                "1.20.2"
         ) { version, provider ->
             configureRun(provider, version)
         }
