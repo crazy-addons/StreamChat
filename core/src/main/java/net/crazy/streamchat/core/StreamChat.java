@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import lombok.Getter;
 import net.crazy.streamchat.core.activity.control.ControlNavigationElement;
 import net.crazy.streamchat.core.commands.CustomCommandManager;
+import net.crazy.streamchat.core.commands.VariableProvider;
+import net.crazy.streamchat.core.commands.variables.MinecraftVariables;
 import net.crazy.streamchat.core.listener.HotKeyListener;
 import net.crazy.streamchat.core.listener.TwitchChatListener;
 import net.labymod.api.addon.LabyAddon;
@@ -14,6 +16,7 @@ import net.labymod.api.models.addon.annotation.AddonMain;
 public class StreamChat extends LabyAddon<Configuration> {
 
   public static StreamChat addon;
+  public static VariableProvider variableProvider = new VariableProvider();
 
   @Getter
   private TwitchBot bot;
@@ -36,6 +39,9 @@ public class StreamChat extends LabyAddon<Configuration> {
     if (configuration().getControlPanel().get()) {
       this.labyAPI().navigationService().register(new ControlNavigationElement(this));
     }
+
+    // Custom Commands
+    new MinecraftVariables(this);
 
     this.customCommandManager = new CustomCommandManager(this);
     this.registerListener(customCommandManager);

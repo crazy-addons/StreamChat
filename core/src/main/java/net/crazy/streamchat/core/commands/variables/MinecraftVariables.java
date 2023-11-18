@@ -1,49 +1,49 @@
-package net.crazy.streamchat.core.commands;
+package net.crazy.streamchat.core.commands.variables;
 
 import net.crazy.streamchat.core.StreamChat;
+import net.crazy.streamchat.core.commands.CommandVariables;
 import net.labymod.api.client.Minecraft;
 import net.labymod.api.client.network.server.ServerData;
 import net.labymod.api.client.world.ClientWorld;
-import net.labymod.api.util.I18n;
 
-public class VariableProviders {
-  private final StreamChat addon;
+public class MinecraftVariables extends Variables {
   private final Minecraft minecraft;
-  private final String unknown;
 
-  public VariableProviders() {
-    this.addon = StreamChat.addon;
+  public MinecraftVariables(StreamChat addon) {
+    super(addon);
     this.minecraft = addon.labyAPI().minecraft();
-    this.unknown = I18n.getTranslation("streamchat.messages.commands.unknown");
+
+    this.provider.register(CommandVariables.HEALTH, this::getHealth);
+    this.provider.register(CommandVariables.FOOD, this::getFood);
+    this.provider.register(CommandVariables.USERNAME, this::getName);
+    this.provider.register(CommandVariables.VERSION, this::getVersion);
+    this.provider.register(CommandVariables.SERVER, this::getServer);
+    this.provider.register(CommandVariables.BIOME, this::getBiome);
+    this.provider.register(CommandVariables.GAMEMODE, this::getGameMode);
   }
 
-  @VariableProvider(identifier = "health")
   public String getHealth() {
     if (minecraft.getClientPlayer() == null)
       return unknown;
     return String.valueOf(minecraft.getClientPlayer().getHealth());
   }
 
-  @VariableProvider(identifier = "food")
   public String getFood() {
     if (minecraft.getClientPlayer() == null)
       return unknown;
     return String.valueOf(minecraft.getClientPlayer().foodData().getFoodLevel());
   }
 
-  @VariableProvider(identifier = "username")
   public String getName() {
     if (minecraft.getClientPlayer() == null)
       return unknown;
     return minecraft.getClientPlayer().getName();
   }
 
-  @VariableProvider(identifier = "version")
   public String getVersion() {
     return minecraft.getVersion();
   }
 
-  @VariableProvider(identifier = "server")
   public String getServer() {
     ServerData serverData = addon.labyAPI().serverController().getCurrentServerData();
     if (serverData == null)
@@ -58,7 +58,6 @@ public class VariableProviders {
     return serverData.address().getHost();
   }
 
-  @VariableProvider(identifier = "biome")
   public String getBiome() {
     ClientWorld world = addon.labyAPI().minecraft().clientWorld();
     if (world == null)
@@ -67,7 +66,6 @@ public class VariableProviders {
     return world.getReadableBiomeName();
   }
 
-  @VariableProvider(identifier = "gamemode")
   public String getGameMode() {
     if (minecraft.getClientPlayer() == null)
       return unknown;

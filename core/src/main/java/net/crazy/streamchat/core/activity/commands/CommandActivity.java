@@ -8,7 +8,6 @@ import net.crazy.streamchat.core.commands.CommandVariables;
 import net.crazy.streamchat.core.commands.CustomCommand;
 import net.crazy.streamchat.core.commands.CustomCommand.CustomCommandBuilder;
 import net.crazy.streamchat.core.events.EditCustomCommandEvent;
-import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.gui.screen.Parent;
 import net.labymod.api.client.gui.screen.activity.Activity;
 import net.labymod.api.client.gui.screen.activity.AutoActivity;
@@ -108,7 +107,7 @@ public class CommandActivity extends Activity {
 
     ButtonWidget saveButton = ButtonWidget.i18n(i18nKey + "buttons.save", this::saveCommand)
         .addId("saveButton");
-    saveButton.updateIcon(Icon.sprite16(textures, 4, 0));
+    //saveButton.updateIcon(Icon.sprite16(textures, 4, 0));
     inputContainer.addChild(saveButton);
 
     secondPage.addChild(inputContainer);

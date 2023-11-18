@@ -1,12 +1,29 @@
 package net.crazy.streamchat.core.commands;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.HashMap;
+import java.util.function.Supplier;
+import lombok.Getter;
+import net.crazy.streamchat.core.StreamChat;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
-public @interface VariableProvider {
-  String identifier();
+public class VariableProvider {
+  private final StreamChat addon;
+
+  @Getter
+  private final HashMap<CommandVariables, Supplier<String>> mappedVariables = new HashMap<>();
+
+  public VariableProvider() {
+    this.addon = StreamChat.addon;
+  }
+
+  public void register(CommandVariables variables, Supplier<String> valueSupplier) {
+    this.mappedVariables.put(variables, valueSupplier);
+  }
+
+  public String getVariable(CommandVariables variable) {
+    if (!this.mappedVariables.containsKey(variable)) {
+      return "null";
+    }
+
+    return this.mappedVariables.get(variable).get();
+  }
 }

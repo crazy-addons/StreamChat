@@ -53,7 +53,6 @@ public class TwitchBot extends PircBot {
   @Override
   protected void onMessage(String channel, String sender, String login, String hostname,
       String message) {
-    System.out.println("Message received");
     if (!config.enabled().get()) {
       return;
     }
