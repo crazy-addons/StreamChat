@@ -23,7 +23,9 @@ public class TwitchChatListener {
     String prefix = addon.configuration().getPrefix().getOrDefault("§5✪ §d%user% §8> §7%message%");
     String message = prefix.replace("%user%", event.getSender())
         .replace("%message%", event.getMessage());
-    addon.getMessageHistory().add(ComponentWidget.text(message));
+    addon.labyAPI().minecraft().executeOnRenderThread(() -> {
+      addon.getMessageHistory().add(ComponentWidget.text(message));
+    });
 
     if (addon.configuration().twitchChatPreview.getEnabled().get())
       addon.displayMessage(message);
