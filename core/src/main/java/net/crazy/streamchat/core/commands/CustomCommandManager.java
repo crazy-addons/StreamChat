@@ -14,6 +14,8 @@ public class CustomCommandManager {
     this.addon = addon;
   }
 
+  private final Pattern pattern = Pattern.compile("(%[a-zA-Z]+%)");
+
   @Subscribe
   public void onCommand(TwitchCommandReceived event) {
     String trigger = event.getCommand().replaceFirst(
@@ -37,7 +39,6 @@ public class CustomCommandManager {
       return;
 
     String response = command.getResponse();
-    Pattern pattern = Pattern.compile("(%[a-zA-Z]+%)");
     Matcher matcher = pattern.matcher(response);
 
     // Variables found
