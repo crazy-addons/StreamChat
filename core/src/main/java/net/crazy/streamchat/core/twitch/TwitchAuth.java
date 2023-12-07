@@ -76,8 +76,6 @@ public class TwitchAuth {
                this.socket = socket;
                String path = scanner.nextLine().split(" ")[1];
 
-               System.out.println(path);
-
                output.write("HTTP/1.0 200 OK\r\n".getBytes(StandardCharsets.UTF_8));
                output.write("Content-Type: html; charset=UTF-8\r\n".getBytes(StandardCharsets.UTF_8));
                output.write("\r\n".getBytes(StandardCharsets.UTF_8));
