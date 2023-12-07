@@ -8,6 +8,7 @@ import net.crazy.streamchat.core.commands.VariableProvider;
 import net.crazy.streamchat.core.commands.variables.MinecraftVariables;
 import net.crazy.streamchat.core.listener.HotKeyListener;
 import net.crazy.streamchat.core.listener.TwitchChatListener;
+import net.crazy.streamchat.core.twitch.TwitchAPI;
 import net.crazy.streamchat.core.util.NamedResources;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.client.gui.screen.widget.widgets.ComponentWidget;
@@ -24,6 +25,9 @@ public class StreamChat extends LabyAddon<Configuration> {
   private TwitchBot bot;
 
   @Getter
+  private TwitchAPI twitchAPI;
+
+  @Getter
   private final ArrayList<ComponentWidget> messageHistory = new ArrayList<>();
   private CustomCommandManager customCommandManager;
 
@@ -34,6 +38,8 @@ public class StreamChat extends LabyAddon<Configuration> {
 
     bot = new TwitchBot(this);
     this.registerListener(bot);
+
+    this.twitchAPI = new TwitchAPI(this);
 
     this.registerListener(new TwitchChatListener(this));
     this.registerListener(new HotKeyListener(this));
