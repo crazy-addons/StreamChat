@@ -7,7 +7,10 @@ import java.util.concurrent.TimeUnit;
 import net.crazy.streamchat.api.events.TwitchCommandReceived;
 import net.crazy.streamchat.api.events.TwitchMessageReceived;
 import net.crazy.streamchat.api.events.TwitchSendMessage;
+import net.labymod.api.client.component.Component;
 import net.labymod.api.event.Subscribe;
+import net.labymod.api.notification.Notification;
+import net.labymod.api.notification.Notification.Type;
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.PircBot;
 
@@ -34,14 +37,23 @@ public class TwitchBot extends PircBot {
 
     boolean validToken = false;
 
+    Notification.Builder notificationBuilder = Notification.builder()
+        .title(Component.text("StreamChat+"))
+        .type(Type.ADVANCEMENT);
+
     // Try to connect
     try {
       this.connect("irc.twitch.tv", 6667, config.getTwitchToken().get());
       validToken = true;
       addon.logger().info("StreamChat+ | TwitchBot started successfully.");
+
+      notificationBuilder.text(Component.translatable("streamchat.messages.notification.bot_start"));
     } catch (IOException | IrcException e) {
+      notificationBuilder.text(Component.translatable("streamchat.messages.notification.bot_start_error"));
       e.printStackTrace();
     }
+
+    addon.pushNotification(notificationBuilder);
 
     if (!validToken) {
       return;
@@ -79,6 +91,11 @@ public class TwitchBot extends PircBot {
   public void stop() {
     this.disconnect();
     addon.getMessageHistory().clear();
+
+    addon.pushNotification(Notification.builder()
+        .title(Component.text("StreamChat+"))
+        .text(Component.translatable("streamchat.messages.notification.bot_stop"))
+        .type(Type.ADVANCEMENT));
   }
 
   public void restart() {

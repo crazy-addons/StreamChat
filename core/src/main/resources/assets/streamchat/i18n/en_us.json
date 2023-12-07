@@ -72,6 +72,11 @@
       },
       "commands": {
         "unknown": "Unknown"
+      },
+      "notification": {
+        "bot_start": "TwitchBot started successfully.",
+        "bot_start_error": "Error during bot-start. Please check credentials.",
+        "bot_stop": "TwitchBot stopped."
       }
     },
     "activities": {

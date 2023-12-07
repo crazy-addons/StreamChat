@@ -8,9 +8,11 @@ import net.crazy.streamchat.core.commands.VariableProvider;
 import net.crazy.streamchat.core.commands.variables.MinecraftVariables;
 import net.crazy.streamchat.core.listener.HotKeyListener;
 import net.crazy.streamchat.core.listener.TwitchChatListener;
+import net.crazy.streamchat.core.util.NamedResources;
 import net.labymod.api.addon.LabyAddon;
 import net.labymod.api.client.gui.screen.widget.widgets.ComponentWidget;
 import net.labymod.api.models.addon.annotation.AddonMain;
+import net.labymod.api.notification.Notification;
 
 @AddonMain
 public class StreamChat extends LabyAddon<Configuration> {
@@ -53,5 +55,10 @@ public class StreamChat extends LabyAddon<Configuration> {
   @Override
   protected Class<Configuration> configurationClass() {
     return Configuration.class;
+  }
+
+  public void pushNotification(Notification.Builder builder) {
+    builder.icon(NamedResources.logo);
+    builder.buildAndPush();
   }
 }

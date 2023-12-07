@@ -4,7 +4,9 @@ import net.labymod.api.client.gui.icon.Icon;
 import net.labymod.api.client.resources.ResourceLocation;
 
 public class NamedResources {
-  public static Icon arrowLeft = of("arrow-left"),
+  public static Icon
+      logo = of("streamchat"),
+      arrowLeft = of("arrow-left"),
       floppyDisk = of("floppy-disk"),
       pen = of("pen"),
       plus = of("plus"),
