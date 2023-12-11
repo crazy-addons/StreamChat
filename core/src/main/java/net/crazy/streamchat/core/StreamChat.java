@@ -20,57 +20,60 @@ import net.labymod.api.notification.Notification;
 @AddonMain
 public class StreamChat extends LabyAddon<Configuration> {
 
-   public static StreamChat addon;
-   public static VariableProvider variableProvider = new VariableProvider();
+    public static StreamChat addon;
+    public static VariableProvider variableProvider = new VariableProvider();
 
-   @Getter
-   private TwitchBot bot;
+    @Getter
+    private TwitchBot bot;
 
-   @Getter
-   @Setter
-   private TwitchClient twitchClient;
+    @Getter
+    @Setter
+    private TwitchClient twitchClient;
 
-   @Getter
-   private TwitchAPI twitchAPI;
+    @Getter
+    private TwitchAPI twitchAPI;
 
-   @Getter
-   private final ArrayList<ComponentWidget> messageHistory = new ArrayList<>();
-   private CustomCommandManager customCommandManager;
+    @Getter
+    private final ArrayList<ComponentWidget> messageHistory = new ArrayList<>();
+    private CustomCommandManager customCommandManager;
 
-   @Override
-   protected void enable() {
-      addon = this;
-      this.registerSettingCategory();
+    @Override
+    protected void enable() {
+        addon = this;
+        this.registerSettingCategory();
 
-      bot = new TwitchBot(this);
-      this.registerListener(bot);
+        bot = new TwitchBot(this);
+        this.registerListener(bot);
 
-      this.registerListener(new TwitchChatListener(this));
-      this.registerListener(new HotKeyListener(this));
+        this.registerListener(new TwitchChatListener(this));
+        this.registerListener(new HotKeyListener(this));
 
-      if (configuration().getControlPanel().get()) {
-         this.labyAPI().navigationService().register(new ControlNavigationElement(this));
-      }
+        if (configuration().getControlPanel().get()) {
+            this.labyAPI().navigationService().register(new ControlNavigationElement(this));
+        }
 
-      // Custom Commands
-      new MinecraftVariables(this);
+        // Custom Commands
+        new MinecraftVariables(this);
 
-      this.customCommandManager = new CustomCommandManager(this);
-      this.registerListener(customCommandManager);
+        this.customCommandManager = new CustomCommandManager(this);
+        this.registerListener(customCommandManager);
 
-      this.twitchAPI = new TwitchAPI(this);
+        this.twitchAPI = new TwitchAPI(this);
 
-      this.logger().info(String.format("StreamChat+ | Addon successfully enabled. (v%s)",
-          this.addonInfo().getVersion()));
-   }
+        this.info("Addon successfully enabled. (v%s)", this.addonInfo().getVersion());
+    }
 
-   @Override
-   protected Class<Configuration> configurationClass() {
-      return Configuration.class;
-   }
+    @Override
+    protected Class<Configuration> configurationClass() {
+        return Configuration.class;
+    }
 
-   public void pushNotification(Notification.Builder builder) {
-      builder.icon(NamedResources.logo);
-      builder.buildAndPush();
-   }
+    public void pushNotification(Notification.Builder builder) {
+        builder.icon(NamedResources.logo);
+        builder.buildAndPush();
+    }
+
+    public void info(String info, Object... args) {
+        addon.logger().info("StreamChat+ | " + info, args);
+    }
 }

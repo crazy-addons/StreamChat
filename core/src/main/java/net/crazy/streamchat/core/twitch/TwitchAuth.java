@@ -15,6 +15,8 @@ import java.util.Scanner;
 import java.util.concurrent.Executors;
 import net.crazy.streamchat.core.StreamChat;
 import net.crazy.streamchat.core.events.auth.OAuthFailedEvent;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.notification.Notification;
 import net.labymod.api.util.io.web.URLResolver;
 import net.labymod.api.util.io.web.WebResponse;
 import net.labymod.api.util.io.web.exception.WebRequestException;
@@ -103,6 +105,7 @@ public class TwitchAuth {
 
                   String accessToken = path.substring(path.indexOf("=") + 1, path.indexOf("&"));
                   addon.configuration().apiConfig.token = accessToken;
+                  addon.configuration().apiConfig.previousScopes = scopes;
                   addon.saveConfiguration();
                   this.finalizeOAuth(true);
                }
@@ -160,6 +163,20 @@ public class TwitchAuth {
                    rawScopes.add(responseScopes.get(i).getAsString());
                 }
                 scopes = String.join("+", rawScopes);
+
+                if (!addon.configuration().apiConfig.previousScopes.equalsIgnoreCase(scopes) &&
+                    !addon.configuration().apiConfig.token.isBlank()) {
+                    addon.info("Twitch OAuth required as scopes have changed!");
+                    addon.info("Previous scopes: %s", addon.configuration().apiConfig.previousScopes);
+                    addon.info("New scopes: %s", scopes);
+
+                    addon.configuration().apiConfig.token = "";
+                    addon.saveConfiguration();
+
+                    addon.pushNotification(Notification.builder()
+                        .title(Component.text("StreamChat+"))
+                        .text(Component.translatable("streamchat.messages.notification.auth_required")));
+                }
 
                 dataLoaded = true;
              }

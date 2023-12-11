@@ -16,100 +16,106 @@ import org.jibble.pircbot.PircBot;
 
 public class TwitchBot extends PircBot {
 
-  private final StreamChat addon;
-  private final Configuration config;
+    private final StreamChat addon;
+    private final Configuration config;
 
-  public TwitchBot(StreamChat addon) {
-    this.addon = addon;
-    this.config = this.addon.configuration();
-    this.setName(this.config.getBotName().getOrDefault("StreamChatPlus"));
-  }
-
-  public void start() {
-    if (!config.enabled().get()) {
-      return;
+    public TwitchBot(StreamChat addon) {
+        this.addon = addon;
+        this.config = this.addon.configuration();
+        this.setName(this.config.getBotName().getOrDefault("StreamChatPlus"));
     }
 
-    // Check if all necessary information has been provided in the configuration
-    if (!isConfiguredCorrectly()) {
-      return;
+    public void start() {
+        addon.info("Attempting to start TwitchBot");
+        if (!config.enabled().get()) {
+            return;
+        }
+
+        Notification.Builder notificationBuilder = Notification.builder()
+            .title(Component.text("StreamChat+"))
+            .type(Type.ADVANCEMENT);
+
+        // Check if all necessary information has been provided in the configuration
+        if (!isConfiguredCorrectly()) {
+            addon.pushNotification(notificationBuilder.text(
+                Component.translatable("streamchat.messages.notification.bot_configure_error")));
+            return;
+        }
+
+        boolean validToken = false;
+
+        // Try to connect
+        try {
+            this.connect("irc.twitch.tv", 6667, config.getTwitchToken().get());
+            validToken = true;
+            notificationBuilder.text(
+                Component.translatable("streamchat.messages.notification.bot_start"));
+
+            addon.info("TwitchBot started successfully");
+        } catch (IOException | IrcException e) {
+            notificationBuilder.text(
+                Component.translatable("streamchat.messages.notification.bot_start_error"));
+            e.printStackTrace();
+        }
+
+        addon.pushNotification(notificationBuilder);
+
+        if (!validToken) {
+            return;
+        }
+
+        this.joinChannel("#" + config.getTwitchChannel().get().toLowerCase());
     }
 
-    boolean validToken = false;
+    @Override
+    protected void onMessage(String channel, String sender, String login, String hostname,
+        String message) {
+        if (!config.enabled().get()) {
+            return;
+        }
 
-    Notification.Builder notificationBuilder = Notification.builder()
-        .title(Component.text("StreamChat+"))
-        .type(Type.ADVANCEMENT);
+        if (message.startsWith(
+            addon.configuration().twitchCommandConfig.getCommandPrefix().getOrDefault("!"))) {
+            addon.labyAPI().eventBus().fire(new TwitchCommandReceived(channel, sender, message));
+        }
 
-    // Try to connect
-    try {
-      this.connect("irc.twitch.tv", 6667, config.getTwitchToken().get());
-      validToken = true;
-      addon.logger().info("StreamChat+ | TwitchBot started successfully.");
-
-      notificationBuilder.text(Component.translatable("streamchat.messages.notification.bot_start"));
-    } catch (IOException | IrcException e) {
-      notificationBuilder.text(Component.translatable("streamchat.messages.notification.bot_start_error"));
-      e.printStackTrace();
+        addon.labyAPI().eventBus().fire(new TwitchMessageReceived(channel, sender, message));
     }
 
-    addon.pushNotification(notificationBuilder);
+    @Subscribe
+    public void sendMessage(TwitchSendMessage event) {
+        this.sendMessage("#" + (event.getChannel() == null ?
+                config.getTwitchChannel().get().toLowerCase() : event.getChannel()),
+            event.getMessage());
 
-    if (!validToken) {
-      return;
+        addon.labyAPI().eventBus().fire(
+            new TwitchMessageReceived("", addon.configuration().getTwitchChannel().get(),
+                event.getMessage()));
     }
 
-    this.joinChannel("#" + config.getTwitchChannel().get().toLowerCase());
-  }
+    public void stop() {
+        this.disconnect();
+        addon.getMessageHistory().clear();
 
-  @Override
-  protected void onMessage(String channel, String sender, String login, String hostname,
-      String message) {
-    if (!config.enabled().get()) {
-      return;
+        addon.pushNotification(Notification.builder()
+            .title(Component.text("StreamChat+"))
+            .text(Component.translatable("streamchat.messages.notification.bot_stop"))
+            .type(Type.ADVANCEMENT));
+        addon.info("Stopped TwitchBot");
     }
 
-    if (message.startsWith(
-        addon.configuration().twitchCommandConfig.getCommandPrefix().getOrDefault("!"))) {
-      addon.labyAPI().eventBus().fire(new TwitchCommandReceived(channel, sender, message));
+    public void restart() {
+        stop();
+        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.schedule(this::start, 2, TimeUnit.SECONDS);
     }
 
-    addon.labyAPI().eventBus().fire(new TwitchMessageReceived(channel, sender, message));
-  }
+    private boolean isConfiguredCorrectly() {
+        if (config.getTwitchChannel() == null || config.getTwitchToken() == null
+            || config.getBotName() == null) {
+            return false;
+        }
 
-  @Subscribe
-  public void sendMessage(TwitchSendMessage event) {
-    this.sendMessage("#" + (event.getChannel() == null ?
-            config.getTwitchChannel().get().toLowerCase() : event.getChannel()),
-        event.getMessage());
-
-    addon.labyAPI().eventBus().fire(
-        new TwitchMessageReceived("", addon.configuration().getTwitchChannel().get(),
-            event.getMessage()));
-  }
-
-  public void stop() {
-    this.disconnect();
-    addon.getMessageHistory().clear();
-
-    addon.pushNotification(Notification.builder()
-        .title(Component.text("StreamChat+"))
-        .text(Component.translatable("streamchat.messages.notification.bot_stop"))
-        .type(Type.ADVANCEMENT));
-  }
-
-  public void restart() {
-    stop();
-    final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
-    executorService.schedule(this::start, 2, TimeUnit.SECONDS);
-  }
-
-  private boolean isConfiguredCorrectly() {
-    if (config.getTwitchChannel() == null || config.getTwitchToken() == null
-        || config.getBotName() == null) {
-      return false;
+        return config.getTwitchToken().get().startsWith("oauth:");
     }
-
-    return config.getTwitchToken().get().startsWith("oauth:");
-  }
 }

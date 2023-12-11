@@ -17,6 +17,9 @@ public class TwitchAPIConfig extends Config {
    @Exclude
    public String token = "";
 
+   @Exclude
+   public String previousScopes = "";
+
    @ButtonSetting
    @MethodOrder(before = "followNotify")
    @SettingRequires(value = "setup", invert = true)
