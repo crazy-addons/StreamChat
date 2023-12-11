@@ -7,6 +7,8 @@ plugins {
 dependencies {
     labyApi("api")
 
+    maven(mavenCentral(), "com.github.twitch4j:twitch4j:1.18.0")
+
     compileOnly("org.projectlombok:lombok:1.18.28")
     annotationProcessor("org.projectlombok:lombok:1.18.28")
     testCompileOnly("org.projectlombok:lombok:1.18.28")

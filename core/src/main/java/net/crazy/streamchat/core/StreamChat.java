@@ -1,7 +1,9 @@
 package net.crazy.streamchat.core;
 
+import com.github.twitch4j.TwitchClient;
 import java.util.ArrayList;
 import lombok.Getter;
+import lombok.Setter;
 import net.crazy.streamchat.core.activity.control.ControlNavigationElement;
 import net.crazy.streamchat.core.commands.CustomCommandManager;
 import net.crazy.streamchat.core.commands.VariableProvider;
@@ -18,53 +20,57 @@ import net.labymod.api.notification.Notification;
 @AddonMain
 public class StreamChat extends LabyAddon<Configuration> {
 
-  public static StreamChat addon;
-  public static VariableProvider variableProvider = new VariableProvider();
+   public static StreamChat addon;
+   public static VariableProvider variableProvider = new VariableProvider();
 
-  @Getter
-  private TwitchBot bot;
+   @Getter
+   private TwitchBot bot;
 
-  @Getter
-  private TwitchAPI twitchAPI;
+   @Getter
+   @Setter
+   private TwitchClient twitchClient;
 
-  @Getter
-  private final ArrayList<ComponentWidget> messageHistory = new ArrayList<>();
-  private CustomCommandManager customCommandManager;
+   @Getter
+   private TwitchAPI twitchAPI;
 
-  @Override
-  protected void enable() {
-    addon = this;
-    this.registerSettingCategory();
+   @Getter
+   private final ArrayList<ComponentWidget> messageHistory = new ArrayList<>();
+   private CustomCommandManager customCommandManager;
 
-    bot = new TwitchBot(this);
-    this.registerListener(bot);
+   @Override
+   protected void enable() {
+      addon = this;
+      this.registerSettingCategory();
 
-    this.twitchAPI = new TwitchAPI(this);
+      bot = new TwitchBot(this);
+      this.registerListener(bot);
 
-    this.registerListener(new TwitchChatListener(this));
-    this.registerListener(new HotKeyListener(this));
+      this.registerListener(new TwitchChatListener(this));
+      this.registerListener(new HotKeyListener(this));
 
-    if (configuration().getControlPanel().get()) {
-      this.labyAPI().navigationService().register(new ControlNavigationElement(this));
-    }
+      if (configuration().getControlPanel().get()) {
+         this.labyAPI().navigationService().register(new ControlNavigationElement(this));
+      }
 
-    // Custom Commands
-    new MinecraftVariables(this);
+      // Custom Commands
+      new MinecraftVariables(this);
 
-    this.customCommandManager = new CustomCommandManager(this);
-    this.registerListener(customCommandManager);
+      this.customCommandManager = new CustomCommandManager(this);
+      this.registerListener(customCommandManager);
 
-    this.logger().info(String.format("StreamChat+ | Addon successfully enabled. (v%s)",
-        this.addonInfo().getVersion()));
-  }
+      this.twitchAPI = new TwitchAPI(this);
 
-  @Override
-  protected Class<Configuration> configurationClass() {
-    return Configuration.class;
-  }
+      this.logger().info(String.format("StreamChat+ | Addon successfully enabled. (v%s)",
+          this.addonInfo().getVersion()));
+   }
 
-  public void pushNotification(Notification.Builder builder) {
-    builder.icon(NamedResources.logo);
-    builder.buildAndPush();
-  }
+   @Override
+   protected Class<Configuration> configurationClass() {
+      return Configuration.class;
+   }
+
+   public void pushNotification(Notification.Builder builder) {
+      builder.icon(NamedResources.logo);
+      builder.buildAndPush();
+   }
 }
