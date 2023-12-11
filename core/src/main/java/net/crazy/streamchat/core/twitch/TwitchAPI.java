@@ -28,6 +28,7 @@ public class TwitchAPI {
    }
 
    public void createClient() {
+       addon.info("Attempting to create TwitchClient...");
       if (addon.getTwitchClient() != null) {
          return;
       }
@@ -40,6 +41,7 @@ public class TwitchAPI {
       if (token.isEmpty()) {
          return;
       }
+      addon.info("Token for TwitchClient exists, proceeding...");
 
       try {
          CredentialManager credManager = CredentialManagerBuilder.builder().build();
@@ -63,6 +65,7 @@ public class TwitchAPI {
          EventManager eventManager = addon.getTwitchClient().getEventManager();
          HelixListener helixListener = new HelixListener(addon);
          eventManager.onEvent(FollowEvent.class, helixListener::handleFollow);
+         addon.info("TwitchClient started successfully");
       } catch (Exception exception) {
          addon.logger().error("Couldn't start TwitchClient", exception);
       }
