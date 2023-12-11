@@ -63,8 +63,6 @@ public class TwitchAPI {
          EventManager eventManager = addon.getTwitchClient().getEventManager();
          HelixListener helixListener = new HelixListener(addon);
          eventManager.onEvent(FollowEvent.class, helixListener::handleFollow);
-
-         // TODO: 07.12.23 Start Task to sync viewer-count, follower-count
       } catch (Exception exception) {
          addon.logger().error("Couldn't start TwitchClient", exception);
       }
