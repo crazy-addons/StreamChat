@@ -14,28 +14,33 @@ import net.labymod.api.notification.Notification;
 import net.labymod.api.util.MethodOrder;
 
 public class TwitchAPIConfig extends Config {
-   @Exclude
-   public String token = "";
 
-   @Exclude
-   public String previousScopes = "";
+    @Exclude
+    public String token = "";
 
-   @ButtonSetting
-   @MethodOrder(before = "followNotify")
-   @SettingRequires(value = "setup", invert = true)
-   public void startAuth() {
-      if (!token.isEmpty()) {
-         StreamChat.addon.pushNotification(Notification.builder()
-             .title(Component.text("StreamChat+"))
-             .text(Component.translatable("streamchat.messages.notification.auth_already")));
-         return;
-      }
+    @Exclude
+    public String previousScopes = "";
 
-      StreamChat.addon.getTwitchAPI().auth.startOAuth();
-   }
+    @ButtonSetting
+    @MethodOrder(before = "followNotify")
+    @SettingRequires(value = "setup", invert = true)
+    public void startAuth() {
+        if (!token.isEmpty()) {
+            StreamChat.addon.pushNotification(Notification.builder()
+                .title(Component.text("StreamChat+"))
+                .text(Component.translatable("streamchat.messages.notification.auth_already")));
+            return;
+        }
 
-   @SettingSection("notifications")
-   @SwitchSetting
-   @Getter
-   private final ConfigProperty<Boolean> followNotify = new ConfigProperty<>(true);
+        StreamChat.addon.getTwitchAPI().auth.startOAuth();
+    }
+
+    @SettingSection("notifications")
+    @SwitchSetting
+    @Getter
+    private final ConfigProperty<Boolean> followNotify = new ConfigProperty<>(true);
+
+    @SwitchSetting
+    @Getter
+    private final ConfigProperty<Boolean> giftSubscriptionNotify = new ConfigProperty<>(true);
 }
