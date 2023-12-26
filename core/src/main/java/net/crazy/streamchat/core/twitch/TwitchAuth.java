@@ -1,15 +1,11 @@
 package net.crazy.streamchat.core.twitch;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
@@ -17,9 +13,6 @@ import net.crazy.streamchat.core.StreamChat;
 import net.crazy.streamchat.core.events.auth.OAuthFailedEvent;
 import net.labymod.api.client.component.Component;
 import net.labymod.api.notification.Notification;
-import net.labymod.api.util.io.web.URLResolver;
-import net.labymod.api.util.io.web.WebResponse;
-import net.labymod.api.util.io.web.exception.WebRequestException;
 
 public class TwitchAuth {
 
@@ -27,27 +20,33 @@ public class TwitchAuth {
 
     public TwitchAuth(StreamChat addon) {
         this.addon = addon;
-        this.loadData();
+
+        // Check for scope changes
+        if (addon.configuration().apiConfig.previousScopes.equals(scopes))
+            return;
+
+        addon.pushNotification(Notification.builder()
+            .title(Component.text("StreamChat - OAuth"))
+            .text(Component.translatable("streamchat.messages.notification.auth_required")));
+        this.reAuth = true;
     }
 
-    private String clientID;
-    private String scopes = "";
+    private final String clientID = "mlf612pxqhgx5ptrymfq541j0mlx3z";
+    private final String scopes = String.join("+", "bits:read", "channel:read:polls",
+        "channel:manage:polls", "moderator:read:followers");
     private ServerSocket server = null;
     private Socket socket = null;
+    private boolean reAuth = false;
 
     /**
      * Starts the entire OAuth Process
      */
     public void startOAuth() {
-        if (!addon.configuration().apiConfig.token.equals("")) {
+        if (!addon.configuration().apiConfig.token.equals("") && !reAuth) {
             return;
         }
 
         addon.logger().info("Starting StreamChat-OAuth");
-
-        if (!dataLoaded) {
-            return;
-        }
 
         String state = this.createStateToken();
         String authUrl = String.format("https://id.twitch.tv/oauth2/authorize"
@@ -150,57 +149,6 @@ public class TwitchAuth {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-    }
-
-    private boolean dataLoaded = false;
-
-    /**
-     * Load current settings for O-Auth process
-     */
-    private void loadData() {
-        if (dataLoaded) {
-            return;
-        }
-
-        URLResolver.readJson("https://dl.csjako.com/addons/streamchat/config.json",
-            true, new WebResponse<>() {
-                @Override
-                public void success(JsonElement result) {
-                    JsonObject response = result.getAsJsonObject();
-                    clientID = response.get("client_id").getAsString();
-                    JsonArray responseScopes = response.get("scopes").getAsJsonArray();
-                    ArrayList<String> rawScopes = new ArrayList<>();
-
-                    for (int i = 0; i < responseScopes.size(); i++) {
-                        rawScopes.add(responseScopes.get(i).getAsString());
-                    }
-                    scopes = String.join("+", rawScopes);
-
-                    if (!addon.configuration().apiConfig.previousScopes.equalsIgnoreCase(scopes) &&
-                        !addon.configuration().apiConfig.token.isBlank()) {
-                        addon.info("Twitch OAuth required as scopes have changed!");
-                        addon.info("Previous scopes: %s",
-                            addon.configuration().apiConfig.previousScopes);
-                        addon.info("New scopes: %s", scopes);
-
-                        addon.configuration().apiConfig.token = "";
-                        addon.saveConfiguration();
-
-                        addon.pushNotification(Notification.builder()
-                            .title(Component.text("StreamChat+"))
-                            .text(Component.translatable(
-                                "streamchat.messages.notification.auth_required")));
-                    }
-
-                    dataLoaded = true;
-                }
-
-                @Override
-                public void failed(WebRequestException exception) {
-                    exception.printStackTrace();
-                    dataLoaded = false;
-                }
-            });
     }
 
     /**
