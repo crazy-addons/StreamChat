@@ -42,7 +42,7 @@
                 }
             },
             "apiConfig": {
-                "name": "Twitch API",
+                "name": "Twitch API §c(Experimental)",
                 "enabled": {
                     "name": "Enabled"
                 },

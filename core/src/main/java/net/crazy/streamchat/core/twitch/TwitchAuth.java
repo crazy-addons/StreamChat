@@ -1,5 +1,10 @@
 package net.crazy.streamchat.core.twitch;
 
+import net.crazy.streamchat.core.StreamChat;
+import net.crazy.streamchat.core.events.auth.OAuthFailedEvent;
+import net.labymod.api.client.component.Component;
+import net.labymod.api.notification.Notification;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -9,10 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.Executors;
-import net.crazy.streamchat.core.StreamChat;
-import net.crazy.streamchat.core.events.auth.OAuthFailedEvent;
-import net.labymod.api.client.component.Component;
-import net.labymod.api.notification.Notification;
 
 public class TwitchAuth {
 
@@ -26,14 +27,14 @@ public class TwitchAuth {
             return;
 
         addon.pushNotification(Notification.builder()
-            .title(Component.text("StreamChat - OAuth"))
-            .text(Component.translatable("streamchat.messages.notification.auth_required")));
+                .title(Component.text("StreamChat - OAuth"))
+                .text(Component.translatable("streamchat.messages.notification.auth_required")));
         this.reAuth = true;
     }
 
     private final String clientID = "mlf612pxqhgx5ptrymfq541j0mlx3z";
     private final String scopes = String.join("+", "bits:read", "channel:read:polls",
-        "channel:manage:polls", "moderator:read:followers");
+            "channel:manage:polls", "moderator:read:followers");
     private ServerSocket server = null;
     private Socket socket = null;
     private boolean reAuth = false;
@@ -50,15 +51,15 @@ public class TwitchAuth {
 
         String state = this.createStateToken();
         String authUrl = String.format("https://id.twitch.tv/oauth2/authorize"
-                + "?response_type=token"
-                + "&client_id=%s"
-                + "&redirect_uri=%s"
-                + "&scope=%s"
-                + "&state=%s",
-            clientID,
-            "http://localhost:3000",
-            scopes,
-            state);
+                        + "?response_type=token"
+                        + "&client_id=%s"
+                        + "&redirect_uri=%s"
+                        + "&scope=%s"
+                        + "&state=%s",
+                clientID,
+                "http://localhost:3000",
+                scopes,
+                state);
 
         try {
             this.server = new ServerSocket(3000);
@@ -74,29 +75,29 @@ public class TwitchAuth {
         Executors.newSingleThreadExecutor().execute(() -> {
             while (this.server.isBound() && !this.server.isClosed()) {
                 try (final Socket socket = this.server.accept();
-                    final Scanner scanner = new Scanner(socket.getInputStream());
-                    BufferedOutputStream output = new BufferedOutputStream(
-                        socket.getOutputStream())) {
+                     final Scanner scanner = new Scanner(socket.getInputStream());
+                     BufferedOutputStream output = new BufferedOutputStream(
+                             socket.getOutputStream())) {
                     this.socket = socket;
                     String path = scanner.nextLine().split(" ")[1];
 
                     output.write("HTTP/1.0 200 OK\r\n".getBytes(StandardCharsets.UTF_8));
                     output.write(
-                        "Content-Type: html; charset=UTF-8\r\n".getBytes(StandardCharsets.UTF_8));
+                            "Content-Type: html; charset=UTF-8\r\n".getBytes(StandardCharsets.UTF_8));
                     output.write("\r\n".getBytes(StandardCharsets.UTF_8));
                     output.write("<!DOCTYPE html>\n".getBytes(StandardCharsets.UTF_8));
                     // Parsing the access_token hash into an actual query parameter
                     output.write(("<html>\n"
-                        + "<body>\n"
-                        + "<script>"
-                        + "if (window.location.hash) {"
-                        + "var fragment = window.location.hash.substring(1);"
-                        + "var newUrl = window.location.href.replace('#', '?');"
-                        + "window.history.replaceState({}, document.title, newUrl);"
-                        + "location.reload();"
-                        + "}"
-                        + "</script>\nLoading token...</body>\n<html>").getBytes(
-                        StandardCharsets.UTF_8));
+                            + "<body>\n"
+                            + "<script>"
+                            + "if (window.location.hash) {"
+                            + "var fragment = window.location.hash.substring(1);"
+                            + "var newUrl = window.location.href.replace('#', '?');"
+                            + "window.history.replaceState({}, document.title, newUrl);"
+                            + "location.reload();"
+                            + "}"
+                            + "</script>\nLoading token...</body>\n<html>").getBytes(
+                            StandardCharsets.UTF_8));
 
                     if (path.contains("?access_token=") && path.contains("state=")) {
                         String providedState = path.split("state=")[1];
@@ -109,7 +110,7 @@ public class TwitchAuth {
                         }
 
                         String accessToken = path.substring(path.indexOf("=") + 1,
-                            path.indexOf("&"));
+                                path.indexOf("&"));
                         addon.configuration().apiConfig.token = accessToken;
                         addon.configuration().apiConfig.previousScopes = scopes;
                         addon.saveConfiguration();
@@ -137,7 +138,7 @@ public class TwitchAuth {
             printWriter.write("Content-Type: html; charset=UTF-8\r\n");
             printWriter.write("\r\n");
             printWriter.write(
-                success ? "You can close this window now" : "Error, please try again later");
+                    success ? "You can close this window now" : "Error, please try again later");
             printWriter.flush();
             printWriter.close();
             socket.close();
@@ -163,9 +164,9 @@ public class TwitchAuth {
         Random random = new Random();
 
         return random.ints(leftLimit, rightLimit + 1)
-            .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
-            .limit(targetStringLength)
-            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-            .toString();
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(targetStringLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 }
